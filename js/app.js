@@ -1,15 +1,17 @@
-const queryContainer = document.querySelector("#query");
-const queryBtn = document.querySelector("#searchQuery");
+const queryText = document.querySelector("#query");
+const searchForm = document.querySelector("#searchForm");
 const imagesContainer = document.querySelector(".images");
 
+searchForm.addEventListener("submit", (e) => {
 
-queryBtn.addEventListener("click", () => {
+    // Stop reloading the page
+    e.preventDefault();
 
     // Delete Current Images
     imagesContainer.innerHTML = "";
 
     // Pass the 'query' to our XHR Function
-    const query = queryContainer.value;
+    const query = queryText.value;
     sendXHR(query);
     console.log("Sent...")
 });
