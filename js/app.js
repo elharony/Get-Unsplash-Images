@@ -1,7 +1,14 @@
 const queryContainer = document.querySelector("#query");
 const queryBtn = document.querySelector("#searchQuery");
+const imagesContainer = document.querySelector(".images");
+
 
 queryBtn.addEventListener("click", () => {
+
+    // Delete Current Images
+    imagesContainer.innerHTML = "";
+
+    // Pass the 'query' to our XHR Function
     const query = queryContainer.value;
     sendXHR(query);
     console.log("Sent...")
@@ -23,5 +30,21 @@ function sendXHR(query) {
  * Load Image
  */
 function loadImage() {
-    console.log(JSON.parse(this.responseText));
+    // Parse from JSON to JS
+    const data = JSON.parse(this.responseText);
+    // Select Images
+    const imagesArr = data.results;
+    imagesArr.map((img) => {
+        newImage(img.urls.regular);
+    });
+    
+}
+
+/*
+ * Add New Image
+ */
+function newImage(url) {
+    const img = document.createElement("img");
+    img.setAttribute("src", url);
+    imagesContainer.appendChild(img);
 }
