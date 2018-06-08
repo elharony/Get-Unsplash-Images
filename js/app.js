@@ -13,34 +13,31 @@ searchForm.addEventListener("submit", (e) => {
 
     // Pass the 'query' to our XHR Function
     const query = queryText.value;
-    unsplashXHR(query);
+    unsplashRequest(query);
     // nytXHR(query);
 });
 
 
 /* 
- * Unsplash XHR
+ * Unsplash Request
  */
-function unsplashXHR(query) {
-    const unsplashRequest = new XMLHttpRequest();
-    unsplashRequest.open('GET', `https://api.unsplash.com/search/photos?page=1&query=${query}`);
-    unsplashRequest.onload = loadImages;
-    unsplashRequest.setRequestHeader('Authorization', 'Client-ID 94e374e7706ba6fc2ad3404e5a9de517f75a305ff1363fa4c52e63340bb531bd');
-    unsplashRequest.send();
+function unsplashRequest(query) {
+    $.ajax({
+        url: `https://api.unsplash.com/search/photos?page=1&query=${query}`,
+        headers: {
+            'Authorization': 'Client-ID 94e374e7706ba6fc2ad3404e5a9de517f75a305ff1363fa4c52e63340bb531bd'
+        }
+    }).done(loadImages);
 }
 
 /*
  * Load Images
  */
-function loadImages() {
-    // Parse from JSON to JS
-    const data = JSON.parse(this.responseText);
-    // Select Images
+function loadImages(data) {
     const imagesArr = data.results;
     imagesArr.map((img) => {
         newImage(img.urls.regular);
     });
-    
 }
 
 /*
