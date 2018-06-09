@@ -22,12 +22,14 @@ searchForm.addEventListener("submit", (e) => {
  * Unsplash Request
  */
 function unsplashRequest(query) {
-    $.ajax({
-        url: `https://api.unsplash.com/search/photos?page=1&query=${query}`,
+    fetch(`https://api.unsplash.com/search/photos?page=1&query=${query}`, {
         headers: {
             'Authorization': 'Client-ID 94e374e7706ba6fc2ad3404e5a9de517f75a305ff1363fa4c52e63340bb531bd'
         }
-    }).done(loadImages);
+    })
+    .then(response => response.json())
+    .then(loadImages)
+    .catch(error => console.error(error));
 }
 
 /*
